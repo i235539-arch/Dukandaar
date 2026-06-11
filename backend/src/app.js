@@ -20,6 +20,10 @@ const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
+// Trust the first proxy (Render, Vercel, Heroku, etc.) so req.ip is the real client IP
+// and express-rate-limit / morgan / audit-log IP addresses are correct in production.
+app.set('trust proxy', 1);
+
 // CORS — allow deployed frontend + localhost dev
 const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:5173')
   .split(',')
